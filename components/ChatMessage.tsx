@@ -13,7 +13,7 @@ export const ChatMessage = ({ user, message }: { user: string, message: Message 
       </View>
 
       <Text style={[styles.timestamp, { alignSelf: isUserAuthor ? 'flex-end' : 'flex-start' }]}>
-        {`${message.author}, ${moment(message.createdAt).fromNow()}`}
+        {`${message.author}, ${moment(message.created_at).fromNow()}`}
       </Text>
     </View>
   )

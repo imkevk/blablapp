@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
 import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { sendMessage } from '../actions';
 import { Message } from '../models/message.model';
 import { RootState } from '../reducers';
-import { ChatMessage } from './';
+import { ChatMessage } from './ChatMessage';
 
 export const Chat = () => {
   const dispatch = useDispatch();
 
-  const { user, messages } = useSelector(
-    ({ chat: { user, messages } }: RootState) => ({ user, messages })
+  let { user, error, messages } = useSelector(
+    ({ chat: { user, error, messages } }: RootState) => ({
+      user,
+      error,
+      messages: messages.map((message, i) => ({ ...message, key: `message_${i}` }))
+    })
   );
-  
+
   const [newMessageContent, setNewMessageContent] = useState('');
-  /* const [messages, setMessages] = useState([
-    { content: 'Contenu -18', author: 'Robert', createdAt: new Date() },
-    { content: 'Contenu -12', author: 'Daniel', createdAt: new Date() },
-    { content: 'Teenagers', author: 'Daniel', createdAt: new Date() },
-  ]); */
 
   const getNewMessage = (content: string): Message => {
-    return { author: user, content, createdAt: new Date() }
+    return { author: user, content }
   }
 
   return (
     <View style={styles.container}>
+      {error && <Text style={styles.errorMessage}>{error.message}.</Text>}
       <Text style={styles.joinNotification}>{user} joined the room.</Text>
 
       <FlatList
@@ -42,7 +43,7 @@ export const Chat = () => {
         />
         <Button
           title="SEND"
-          onPress={() => dispatch([...messages, getNewMessage(newMessageContent)])}
+          onPress={() => newMessageContent && dispatch(sendMessage(getNewMessage(newMessageContent)))}
         />
       </View>
     </View>
@@ -81,5 +82,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     minWidth: '70%',
     marginRight: 16
+  },
+  errorMessage: {
+    color: 'red',
+    fontSize: 14,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    margin: 16,
+    marginBottom: 0
   }
 });

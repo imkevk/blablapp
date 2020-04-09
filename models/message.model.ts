@@ -1,6 +1,6 @@
 export interface Message {
-  _id?: string;
+  id?: string;
   author: string;
   content: string;
-  createdAt: Date;
+  created_at?: Date;
 }
