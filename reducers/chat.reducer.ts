@@ -1,4 +1,4 @@
-import { ChatActionTypes, JOIN_FAILURE, JOIN_REQUEST, JOIN_SUCCESS, SEND_MESSAGE, SEND_MESSAGE_SUCCESS } from "../actions/types";
+import { ChatActionTypes, JOIN_FAILURE, JOIN_REQUEST, JOIN_SUCCESS, SEND_MESSAGE_SUCCESS } from "../actions/types";
 import { Message } from "../models/message.model";
 
 interface ChatState {
@@ -31,13 +31,13 @@ export const chat = (state = initialState, action: ChatActionTypes): ChatState =
     case JOIN_FAILURE:
       return { ...state, error: action.error, messages: [] };
 
-    case SEND_MESSAGE:
+    /* case SEND_MESSAGE: */
     case SEND_MESSAGE_SUCCESS:
       return {
         ...state,
         error: null,
         messages: [
-          ...state.messages.filter(message => !!message.id), action.message
+          ...state.messages/* .filter(message => !!message.id) */, action.message
         ]
       }
 

@@ -19,8 +19,8 @@ export const join = (user: string, room: string): ChatThunkActionType => {
 
 export const sendMessage = (newMessage: Message): ChatThunkActionType => {
   return dispatch => {
-    dispatch({ type: SEND_MESSAGE, message: newMessage })
-
+    dispatch({ type: SEND_MESSAGE, message: newMessage });
+    
     chatService.sendMessage(newMessage)
       .then(postedMessage => dispatch({ type: SEND_MESSAGE_SUCCESS, message: postedMessage }))
       .catch(error => dispatch({ type: SEND_MESSAGE_FAILURE, error }));

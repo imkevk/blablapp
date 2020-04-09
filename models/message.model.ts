@@ -2,5 +2,5 @@ export interface Message {
   id?: string;
   author: string;
   content: string;
-  created_at?: Date;
+  created_at: Date;
 }

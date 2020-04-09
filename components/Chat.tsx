@@ -16,12 +16,15 @@ export const Chat = () => {
       messages: messages.map((message, i) => ({ ...message, key: `message_${i}` }))
     })
   );
-
   const [newMessageContent, setNewMessageContent] = useState('');
 
-  const getNewMessage = (content: string): Message => {
-    return { author: user, content }
-  }
+  const sendNewMessage = (): void => {
+    if (newMessageContent) {
+      const newMessage: Message = { author: user, content: newMessageContent } as Message;
+      dispatch(sendMessage(newMessage));
+      setNewMessageContent('');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -43,7 +46,7 @@ export const Chat = () => {
         />
         <Button
           title="SEND"
-          onPress={() => newMessageContent && dispatch(sendMessage(getNewMessage(newMessageContent)))}
+          onPress={sendNewMessage}
         />
       </View>
     </View>
