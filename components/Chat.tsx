@@ -8,6 +8,7 @@ import { ChatMessage } from './ChatMessage';
 
 export const Chat = () => {
   const dispatch = useDispatch();
+  let lastMessageRef: any = React.createRef();
 
   let { user, error, messages } = useSelector(
     ({ chat: { user, error, messages } }: RootState) => ({
@@ -32,8 +33,10 @@ export const Chat = () => {
       <Text style={styles.joinNotification}>{user} joined the room.</Text>
 
       <FlatList
-        data={messages.map((message, i) => ({ ...message, key: `message_${i}` }))}
+        data={messages}
+        ref={ref => lastMessageRef = ref}
         renderItem={({ item: message }) => <ChatMessage user={user} message={message} />}
+        onContentSizeChange={() => lastMessageRef.scrollToEnd({ animated: true })}
       />
 
       <View style={styles.messageBar}>
